@@ -40,7 +40,7 @@ class PersonController
         array_push($array, $firstname, $lastname, $username);
 
         if ($personHelper->insert($array)) {
-            echo "Rew record added successfully.";
+            echo "New record added successfully.";
         } else
             echo "Error";
 
@@ -58,7 +58,7 @@ class PersonController
         if ($personHelper->update($username, $array)) {
             echo "Record updated successfully.";
         } else
-            echo "Error updating record: ";
+            echo "Error updating record.";
     }
 
     public function readAction($request)
@@ -85,9 +85,9 @@ class PersonController
         $username = $request["username"];
 
         if ($personHelper->delete($username)) {
-            echo "Record deleted successfully";
+            echo "Record deleted successfully.";
         } else {
-            echo "Error deleting  record: ";
+            echo "Error deleting record.";
         }
 
     }

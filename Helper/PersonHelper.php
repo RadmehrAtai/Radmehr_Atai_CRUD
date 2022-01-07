@@ -2,28 +2,25 @@
 
 namespace CRUD\Helper;
 
-use mysqli;
-
 class PersonHelper
 {
 
     public function insert(array $input)
     {
+        $dbConnector = new DBConnector();
         $statement = "
             INSERT INTO person 
                 (firstname, lastname, username)
             VALUES
-                (:firstname, :lastname, :username);
+                ($input[0], $input[1], $input[2]);
         ";
 
         try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array(
-                'firstname' => $input['firstname'],
-                'lastname' => $input['lastname'],
-                'username' => $input['username']
-            ));
-            return $statement->rowCount();
+            if ($dbConnector->execQuery($statement)) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
@@ -31,18 +28,21 @@ class PersonHelper
 
     public function fetch(int $id)
     {
+        $dbConnector = new DBConnector();
         $statement = "
             SELECT 
                 id, firstname, lastname, username
             FROM
                 person
-            WHERE id = ?;
+            WHERE id = $id;
         ";
 
         try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array($id));
-            return $statement->fetchAll(\PDO::FETCH_ASSOC);
+            if ($dbConnector->execQuery($statement)) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
@@ -50,6 +50,7 @@ class PersonHelper
 
     public function fetchAll()
     {
+        $dbConnector = new DBConnector();
         $statement = "
             SELECT 
                 id, firstname, lastname, username
@@ -58,8 +59,11 @@ class PersonHelper
         ";
 
         try {
-            $statement = $this->db->query($statement);
-            return $statement->fetchAll(\PDO::FETCH_ASSOC);
+            if ($dbConnector->execQuery($statement)) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
@@ -67,22 +71,21 @@ class PersonHelper
 
     public function update($username, array $input)
     {
+        $dbConnector = new DBConnector();
         $statement = "
             UPDATE person
             SET 
-                firstname = :firstname,
-                lastname  = :lastname,
-            WHERE username = :username;
+                firstname = $input[0],
+                lastname  = $input[1],
+            WHERE username = $username;
         ";
 
         try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array(
-                'firstname' => $input['firstname'],
-                'lastname' => $input['lastname'],
-                'username' => $username
-            ));
-            return $statement->rowCount();
+            if ($dbConnector->execQuery($statement)) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
@@ -90,15 +93,18 @@ class PersonHelper
 
     public function delete($username)
     {
+        $dbConnector = new DBConnector();
         $statement = "
             DELETE FROM person
-            WHERE username = :username;
+            WHERE username = $username;
         ";
 
         try {
-            $statement = $this->db->prepare($statement);
-            $statement->execute(array('username' => $username));
-            return $statement->rowCount();
+            if ($dbConnector->execQuery($statement)) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }

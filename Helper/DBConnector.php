@@ -29,12 +29,12 @@ class DBConnector
      */
     public function connect(): void
     {
-        $conn = new mysqli(self::$servername, self::$username, self::$password, self::$name);
+        $conn = new mysqli(self::$servername, self::$username, self::$password, self::$dbname);
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        echo "Connected successfully";
+        echo "Connected successfully.";
     }
 
     /**
