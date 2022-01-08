@@ -29,10 +29,10 @@ class DBConnector
      */
     public function connect(): void
     {
-        $conn = new mysqli(self::$servername, self::$username, self::$password, self::$dbname);
+        $con = mysqli_connect("localhost","my_user","my_password","my_db");
 
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        if ($con->connect_error) {
+            die("Connection failed: " . $con->connect_error);
         }
         echo "Connected successfully.";
     }
@@ -43,12 +43,12 @@ class DBConnector
      */
     public function execQuery(string $query): bool
     {
-        $conn = new mysqli(self::$servername, self::$username, self::$password, self::$dbname);
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        $con = mysqli_connect("localhost","my_user","my_password","my_db");
+        if ($con->connect_error) {
+            die("Connection failed: " . $con->connect_error);
         }
 
-        if ($conn->query($query) === TRUE) {
+        if ($con->query($query) === TRUE) {
             return true;
         } else {
             return false;
@@ -62,6 +62,9 @@ class DBConnector
      */
     private function exceptionHandler(string $message): void
     {
-
+        switch (\Exception::class) {
+            case \PDOException::class:
+                echo $message;
+        }
     }
 }

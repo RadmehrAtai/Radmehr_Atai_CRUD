@@ -34,15 +34,19 @@ class PersonController
     {
         $array = [];
         $personHelper = new PersonHelper();
-        $firstname = $request['firstName'];
-        $lastname = $request['lastName'];
-        $username = $request['username'];
-        array_push($array, $firstname, $lastname, $username);
+        $firstname = $_REQUEST($_POST['firstName']);
+        $lastname = $_REQUEST($_POST['lastName']);
+        $username = $_REQUEST($_POST['username']);
 
-        if ($personHelper->insert($array)) {
-            echo "New record added successfully.";
-        } else
-            echo "Error";
+        if (empty($firstname) && empty($lastname) && empty($username)) {
+            echo "Required fields are empty.";
+        } else {
+            array_push($array, $firstname, $lastname, $username);
+            if ($personHelper->insert($array)) {
+                echo "New record added successfully.";
+            } else
+                echo "Error";
+        }
 
     }
 
@@ -50,31 +54,43 @@ class PersonController
     {
         $array = [];
         $personHelper = new PersonHelper();
-        $firstname = $request['firstName'];
-        $lastName = $request['lastName'];
-        $username = $request['firstName'];
-        array_push($array, $firstname, $lastName);
+        $firstname = $_REQUEST($_POST['firstName']);
+        $lastname = $_REQUEST($_POST['lastName']);
+        $username = $_REQUEST($_POST['username']);
 
-        if ($personHelper->update($username, $array)) {
-            echo "Record updated successfully.";
-        } else
-            echo "Error updating record.";
+        if (empty($firstname) && empty($lastname) && empty($username)) {
+            echo "Required fields are empty.";
+        } else {
+            array_push($array, $firstname, $lastname);
+            if ($personHelper->update($username, $array)) {
+                echo "Record updated successfully.";
+            } else
+                echo "Error updating record.";
+        }
     }
 
     public function readAction($request)
     {
         $personHelper = new PersonHelper();
-        $id = $request["id"];
+        $id = $_REQUEST($_GET['firstName']);
 
-        if (!$personHelper->fetch($id)) {
-            echo "rows: 0";
+        if (empty($id)) {
+            echo "Required field is empty.";
+        } else {
+            if ($personHelper->fetch($id)) {
+                echo "";
+            } else {
+                echo "rows: 0";
+            }
         }
     }
 
     public function readAllAction($request)
     {
         $personHelper = new PersonHelper();
-        if (!$personHelper->fetchAll()) {
+        if ($personHelper->fetchAll()) {
+            echo "";
+        } else {
             echo "rows: 0";
         }
     }
@@ -82,14 +98,17 @@ class PersonController
     public function deleteAction($request)
     {
         $personHelper = new PersonHelper();
-        $username = $request["username"];
+        $username = $_REQUEST($_POST['firstName']);
 
-        if ($personHelper->delete($username)) {
-            echo "Record deleted successfully.";
+        if (empty($username)) {
+            echo "Required field is empty.";
         } else {
-            echo "Error deleting record.";
+            if ($personHelper->delete($username)) {
+                echo "Record deleted successfully.";
+            } else {
+                echo "Error deleting record.";
+            }
         }
-
     }
 
 }
