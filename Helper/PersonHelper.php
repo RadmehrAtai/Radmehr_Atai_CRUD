@@ -2,8 +2,6 @@
 
 namespace CRUD\Helper;
 
-include "DBConnector.php";
-
 class PersonHelper
 {
 
