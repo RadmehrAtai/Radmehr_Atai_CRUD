@@ -16,13 +16,10 @@ class PersonHelper
         ";
 
         try {
-            if ($dbConnector->execQuery($statement)) {
-                return true;
-            } else {
-                return false;
-            }
+            $state = $dbConnector->getDb()->query($statement);
+            return $state;
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            throw new \PDOException($e->getMessage());
         }
     }
 
@@ -33,18 +30,15 @@ class PersonHelper
             SELECT 
                 id, firstname, lastname, username
             FROM
-                person
+                PERSON
             WHERE id = $id;
         ";
 
         try {
-            if ($dbConnector->execQuery($statement)) {
-                return true;
-            } else {
-                return false;
-            }
+            $state = $dbConnector->getDb()->query($statement);
+            return $state->fetchfield;
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            throw new \PDOException($e->getMessage());
         }
     }
 
@@ -55,17 +49,14 @@ class PersonHelper
             SELECT 
                 id, firstname, lastname, username
             FROM
-                person;
+                PERSON;
         ";
 
         try {
-            if ($dbConnector->execQuery($statement)) {
-                return true;
-            } else {
-                return false;
-            }
+            $state = $dbConnector->getDb()->query($statement);
+            return $state->fetchAll;
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            throw new \PDOException($e->getMessage());
         }
     }
 
@@ -73,7 +64,7 @@ class PersonHelper
     {
         $dbConnector = new DBConnector();
         $statement = "
-            UPDATE person
+            UPDATE PERSON
             SET 
                 firstname = $input[0],
                 lastname  = $input[1],
@@ -81,13 +72,10 @@ class PersonHelper
         ";
 
         try {
-            if ($dbConnector->execQuery($statement)) {
-                return true;
-            } else {
-                return false;
-            }
+            $state = $dbConnector->getDb()->query($statement);
+            return $state;
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            throw new \PDOException($e->getMessage());
         }
     }
 
@@ -95,18 +83,15 @@ class PersonHelper
     {
         $dbConnector = new DBConnector();
         $statement = "
-            DELETE FROM person
+            DELETE FROM PERSON
             WHERE username = $username;
         ";
 
         try {
-            if ($dbConnector->execQuery($statement)) {
-                return true;
-            } else {
-                return false;
-            }
+            $state = $dbConnector->getDb()->query($statement);
+            return $state;
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            throw new \PDOException($e->getMessage());
         }
     }
 

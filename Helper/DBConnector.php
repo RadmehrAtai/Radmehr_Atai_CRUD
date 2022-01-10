@@ -2,25 +2,23 @@
 
 namespace CRUD\Helper;
 
-use mysqli;
-
 class DBConnector
 {
 
     /** @var mixed $db */
     private $db;
 
-    public static $servername = "localhost";
-    public static $username = "username";
-    public static $password = "password";
-    public static $dbname = "myDB";
+    private $servername;
+    private $username;
+    private $password;
+    private $dbname;
 
-    public function __construct()
+    public function __construct($servername="localhost", $username="admin", $password="123456", $dbname="WEB1")
     {
-        $this->db = new mysqli(self::$servername, self::$username, self::$password, self::$dbname)
-        or die("Could not connect to the database:<br />" . $this->db->connect_error);
-        mysqli_select_db($this->db, self::$name)
-        or die("Database error:<br />" . $this->db->connect_error);
+        $this->servername = $servername;
+        $this->username = $username;
+        $this->password = $password;
+        $this->dbname = $dbname;
     }
 
     /**
@@ -29,7 +27,7 @@ class DBConnector
      */
     public function connect(): void
     {
-        $con = mysqli_connect("localhost","my_user","my_password","my_db");
+        $con = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
 
         if ($con->connect_error) {
             die("Connection failed: " . $con->connect_error);
@@ -43,12 +41,7 @@ class DBConnector
      */
     public function execQuery(string $query): bool
     {
-        $con = mysqli_connect("localhost","my_user","my_password","my_db");
-        if ($con->connect_error) {
-            die("Connection failed: " . $con->connect_error);
-        }
-
-        if ($con->query($query) === TRUE) {
+        if ($this->db->query($query)) {
             return true;
         } else {
             return false;
@@ -66,5 +59,13 @@ class DBConnector
             case \PDOException::class:
                 echo $message;
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDb(): mixed
+    {
+        return $this->db;
     }
 }
