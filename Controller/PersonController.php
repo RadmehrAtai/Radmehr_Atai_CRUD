@@ -45,7 +45,8 @@ class PersonController
             if ($personHelper->insert($person)) {
                 echo "New record added successfully.";
             } else
-                echo "Error";
+                echo "Error adding record.";
+                exit();
         }
 
     }
@@ -65,6 +66,7 @@ class PersonController
                 echo "Record updated successfully.";
             } else
                 echo "Error updating record.";
+                exit();
         }
     }
 
@@ -80,6 +82,7 @@ class PersonController
                 echo "Success";
             } else {
                 echo "rows: 0";
+                exit();
             }
         }
     }
@@ -91,6 +94,7 @@ class PersonController
             echo "Success";
         } else {
             echo "rows: 0";
+            exit();
         }
     }
 
@@ -106,6 +110,7 @@ class PersonController
                 echo "Record deleted successfully.";
             } else {
                 echo "Error deleting record.";
+                exit();
             }
         }
     }
