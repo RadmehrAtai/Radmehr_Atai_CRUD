@@ -55,10 +55,7 @@ class DBConnector
      */
     private function exceptionHandler(string $message): void
     {
-        switch (\Exception::class) {
-            case \PDOException::class:
-                echo $message;
-        }
+
     }
 
     /**

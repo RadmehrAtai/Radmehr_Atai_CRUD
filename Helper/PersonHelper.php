@@ -2,17 +2,19 @@
 
 namespace CRUD\Helper;
 
+include "DBConnector.php";
+
 class PersonHelper
 {
 
-    public function insert(array $input)
+    public function insert($person)
     {
         $dbConnector = new DBConnector();
         $statement = "
-            INSERT INTO person 
+            INSERT INTO PERSON 
                 (firstname, lastname, username)
             VALUES
-                ($input[0], $input[1], $input[2]);
+                ($person->getFirstName(), $person->getLastName(), $person->getUsername());
         ";
 
         try {
@@ -60,15 +62,15 @@ class PersonHelper
         }
     }
 
-    public function update($username, array $input)
+    public function update($person)
     {
         $dbConnector = new DBConnector();
         $statement = "
             UPDATE PERSON
             SET 
-                firstname = $input[0],
-                lastname  = $input[1],
-            WHERE username = $username;
+                firstname = $person->getFirstName(),
+                lastname  = $person->getLastName(),
+            WHERE username = $person->getUsername();
         ";
 
         try {
